@@ -84,11 +84,13 @@ public:
 
 void get_error_probability(vector<string> &random_set,  CountingBloomFilter &bloom_filter) {
     int test_count = 1e5;
-    long long int positive_error_quantity = 0;
-    long long int negative_error_quantity = 0;
+    double positive_error_quantity = 0;
+    double positive_quantity = 0;
+    double negative_error_quantity = 0;
     vector<string> test = generate_random_strings(test_count);
     for (int i = 0; i < test_count; ++i) {
         if (bloom_filter.contains(test[i])) {
+            positive_quantity++;
             if (!(find(random_set.begin(), random_set.end(), test[i]) != random_set.end())) {
                 positive_error_quantity++;
             }
@@ -99,9 +101,9 @@ void get_error_probability(vector<string> &random_set,  CountingBloomFilter &blo
             }
         }
     }
-    cout << "Positive error probability: " << (positive_error_quantity/test_count)*100 << " %" << endl;
-    cout << "Positive error quantity: " << positive_error_quantity << endl;
-    cout << "Negative error quantity: " << negative_error_quantity << endl;
+    cout << "Positive error probability: " << (positive_error_quantity/positive_quantity)*100 << " %" << endl;
+    cout << "Positive error quantity: " << int(positive_error_quantity) << endl;
+    cout << "Negative error quantity: " << int(negative_error_quantity) << endl;
 }
 
 int main() {
